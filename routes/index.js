@@ -15,6 +15,12 @@ let AnimalObject = function (pType, pAge, pBreed, pGender, pFee, pUrl) {
   this.url = pUrl;
 }
 
+ServerAnimalArray.push(new AnimalObject("Dog",8,"Corgi","Male",250, "https://www.dogsindanger.com/dog.jsp?did=1641671804810"))
+ServerAnimalArray.push(new AnimalObject("Cat",8,"Tabby","FeMale",30, "https://kingcounty.gov/depts/regional-animal-services/adopt-a-pet.aspx"))
+ServerAnimalArray.push(new AnimalObject("Small Animal",8,"Rabbit","Male",30, "https://kingcounty.gov/depts/regional-animal-services/adopt-a-pet.aspx"))
+ServerAnimalArray.push(new AnimalObject("Dog",8,"Pit Bull Mix","Male",250, "https://kingcounty.gov/depts/regional-animal-services/adopt-a-pet.aspx"))
+ServerAnimalArray.push(new AnimalObject("Birds",8,"Chiken","Male",5, "https://kingcounty.gov/depts/regional-animal-services/adopt-a-pet.aspx"))
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.sendFile('index.html');

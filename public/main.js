@@ -25,10 +25,19 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     document.getElementById("buttonAdd").addEventListener("click", function () {
 
-        animalArray.push(new AnimalObject(selectType, document.getElementById("age").value, 
+        let newAnimal = animalArray.push(new AnimalObject(selectType, document.getElementById("age").value, 
          document.getElementById("breed").value, selectGender, document.getElementById("fee").value,
          document.getElementById("url").value));
          
+        $.ajax({
+            url:"/AddAnimal",
+            type:"POST",
+            data: JSON.stringify(newAnimal),
+            contentType: "application/json; charset=utf-8",
+            success: function (result){
+                console.log(result);
+            }
+        }) 
         document.location.href = "index.html#list"; //Moving to the list animal page automatically after added animal 
         console.log(animalArray);
 
@@ -84,6 +93,9 @@ $(document).on("pagebeforeshow", "#detail", function (event) {
 
 function createList() {
     
+    $.get('/getAllAnimals', function(data, status) { // AJAX get
+        animalArray = data; // put the returned server json data into our local array
+
     // clear prior data
     let mytbody = $("tbody");
     mytbody.empty();
@@ -102,7 +114,6 @@ function createList() {
             mytbody.append(tr);
     });
 
-
     let trArray = document.getElementsByClassName("oneAnimal");
     Array.from(trArray).forEach(function (element) {
         element.addEventListener('click', function () {
@@ -119,4 +130,6 @@ function createList() {
         document.location.href = "index.html#detail";
         });
     });
+
+});
 };
