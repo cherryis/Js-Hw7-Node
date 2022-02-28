@@ -1,0 +1,21 @@
+ body {
+    margin: 50px;
+    font-family: Helvetica, sans-serif;
+    font-size: 150%;
+}
+
+table {
+    width: 100%;
+}
+th {
+    background-color: rgb(76, 110, 110);
+    color: whitesmoke;
+}
+th, td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 3px solid rgb(241, 243, 236);
+}
+
+tr:hover {background-color: rgb(147, 162, 177); }
+
