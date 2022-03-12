@@ -14,11 +14,11 @@ let AnimalObject = function (pType, pAge, pBreed, pGender, pFee, pUrl) {
     this.url = pUrl;
 }
 
-$(document).bind("change", "#select-type", function (event, ui) {
-    selectType = document.getElementById("select-type").value;
+$(document).bind("change", "#selectType", function (event, ui) {
+    selectType = document.getElementById("selectType").value;
 });
-$(document).bind("change", "#select-gender", function (event, ui) {
-    selectGender = document.getElementById("select-gender").value;
+$(document).bind("change", "#selectGender", function (event, ui) {
+    selectGender = document.getElementById("selectGender").value;
 });
 
 document.addEventListener("DOMContentLoaded", function (event) {
@@ -80,7 +80,7 @@ $(document).on("pagebeforeshow", "#detail", function (event) {
     animalArray = JSON.parse(localStorage.getItem('animalArray'));
 
     document.getElementById("detailType").innerHTML = "The animal is => " + animalArray[localID].selectType;
-    document.getElementById("detailAge").innerHTML = " The age is => " + animalArray[localID].age;
+    document.getElementById("detailAge").innerHTML = "The age is => " + animalArray[localID].age;
     document.getElementById("detailBreed").innerHTML = "The breed is => " + animalArray[localID].breed;
     document.getElementById("detailGender").innerHTML = "The gender is => " + animalArray[localID].selectGender;
     document.getElementById("detailFee").innerHTML = "Adoption fee is => $" + animalArray[localID].fee;
