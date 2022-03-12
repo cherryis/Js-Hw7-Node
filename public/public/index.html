@@ -1,0 +1,231 @@
+<!-- PROG 209 Soon Ryu
+Getting data from node to display with Jquery Mobile -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Animals</title>
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="main.js"></script>
+    <link rel="stylesheet" type="text/css" href="site.css">
+
+</head>
+
+<body>
+<!-- ================================================================================ -->
+<!-- ======================== HOME ================================================== -->
+<!-- ================================================================================ -->
+<div data-role="page" id="home">
+    <!-- header -->
+    <div data-role="header" data-theme='b'>
+        <div data-role="navbar" data-theme='b'>
+            <ul>
+               
+                <li><a href="#add">Add Animal</a></li>
+                <li><a href="#list">List Animals</a></li>
+                <li><a href="#search">Search Animals</a></li>
+            </ul>
+        </div><!-- /navbar -->
+        <h2>Adoptable Animal Now! </h2>
+    </div>
+
+
+    <!-- content -->
+    <div data-role="content" data-theme='e'>
+        <h1>Adoptable Animal Now!</h1>
+        <img src="https://www.washingtonpost.com/wp-apps/imrs.php?src=https://arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/ZGD2JCRBUAI6TJ2ZFOCUDO56EA.jpg&w=916" alt="Home Page" style="width:100%">
+    </div>
+ 
+    <!-- Animals footer -->
+    <div data-role="footer" data-theme='b'>
+        <h3>Copyrigtht 2022 by Soon Ryu</h3>
+    </div>
+</div>
+
+<!-- ================================================================================ -->
+<!-- ========================== ADD ============================================= -->
+<!-- ================================================================================ -->
+
+<div data-role="page" id="add">
+    <!-- header -->
+    <div data-role="header" data-theme='b'>
+        <div data-role="navbar" data-theme='b'>
+            <ul>
+                <li><a href="#home">Home Page</a></li>
+                <li><a href="#list">List Animals</a></li>
+                <li><a href="#search">Search Animals</a></li>
+            </ul>
+        </div><!-- /navbar -->
+        <h2>Add a Animal</h2>
+    </div>
+
+    <!-- content -->
+    <div data-role="content" data-theme='e'>
+        <!-- <label for="select-type">Select the type</label> -->
+        Select the Animal Type
+        <select name="selectType" id="selectType">
+            <option value="Dog">Dog</option>
+            <option value="Cat">Cat</option>
+            <option value="Small Animal">Small Animal</option>
+            <option value="Birds">Birds</option>
+            <option value="Others">Others</option>
+        </select>
+
+        Enter Animal Age      
+        <input type="text" value="" id="age"/>
+        Enter Animal Breed
+        <input type="text" value="" id="breed"/>  
+        Select Animal Gender
+        <select name="selectGender" id="selectGender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+        Enter Adoption Fee
+        <input type="text" value="" id="fee"/>  
+        Current Location URL
+        <input type="text" value="" id="url">
+        <input type="button" value="Click To Add Animal" id="buttonAdd" />
+    </div>
+
+    <!-- Animals footer -->
+    <div data-role="footer" data-theme='b'>
+        <h3>Copyrigtht 2022 by Soon Ryu</h3>
+    </div>
+</div>
+
+<!-- ================================================================================ -->
+<!-- ==========================  LIST  ============================================= -->
+<!-- ================================================================================ -->
+
+<div data-role="page" id="list">
+  
+    <!-- header -->
+    <div data-role="header" data-theme='b'>
+        <div data-role="navbar" data-theme='b'>
+            <ul>
+                <li><a href="#home">Home Page</a></li>
+                <li><a href="#add">Add Animal</a></li>   
+                <li><a href="#search">Search Animals</a></li>         
+            </ul>
+        </div><!-- /navbar -->
+
+        <h2>List Animals</h2>
+    </div>
+
+
+    <!-- content -->
+    <h1>List all animals</h1>
+    <div data-role="content" data-theme='e'>
+        <table class="myList">
+            <thead>
+                <tr>
+                    <th width="150">Animal Type</th>
+                    <th width="150">Age</th>
+                    <th width="100">Breed</th>
+                    <th width="100">Gender</th>
+                    <th width="100">Adoption Fee</th>
+                    <th width="100">Current Location URL</th>
+                </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>  
+        <img src="https://media.gettyimages.com/photos/actress-and-director-allison-eastwood-daughter-of-clint-eastwood-a-picture-id466846731?s=2048x2048" alt="List Animals" style="width:100%">
+    </div>   
+
+        <!-- Animals footer -->
+    <div data-role="footer" data-theme='b'>
+        <h3>Copyrigtht 2022 by Soon Ryu</h3>
+    </div>
+</div>
+<!-- ================================================================================ -->
+<!-- ========================  Detail Information After Click a table row  ========== -->
+<!-- ================================================================================ -->
+<div data-role="page" id="detail">
+  
+    <!-- header -->
+    <div data-role="header" data-theme='b'>
+        <div data-role="navbar" data-theme='b'>
+            <ul>
+                <li><a href="#home">Home Page</a></li>
+                <li><a href="#add">Add Animal</a></li> 
+                <li><a href="#list">List Animals</a></li>            
+                <li><a href="#search">Search Animals</a></li>         
+            </ul>
+        </div><!-- /navbar -->
+        <h2>Detail Information of the Pet</h2>
+    </div>
+
+    <!--  content -->
+    <div data-role="content" data-theme='c'>
+        <p> Here are the details</p>
+        <p id="detailType"></p>
+        <p id="detailAge"></p>
+        <p id="detailBreed"></p>
+        <p id="detailGender"></p>
+        <p id="detailFee"></p>
+        <p id="detailUrl" hidden></p>
+        <input type="button" value="Location Information" id="locationInformation" />
+    </div>
+    <input type="button" value="Delete" id="delete" style="background: rgb(253, 8, 41);"/>
+
+        <!-- Animals footer -->
+    <div data-role="footer" data-theme='b'>
+        <h3>Copyrigtht 2022 by Soon Ryu</h3>
+    </div>
+</div>
+<!-- ================================================================================ -->
+<!-- ==========================  Searching Animals by Keywords ..  =========================================== -->
+<!-- ================================================================================ -->
+
+<div data-role="page" id="search">
+  
+    <!-- header -->
+    <div data-role="header" data-theme='b'>
+        <div data-role="navbar" data-theme='b'>
+            <ul>
+                <li><a href="#home">Home Page</a></li>
+                <li><a href="#add">Add Animal</a></li>  
+                <li><a href="#list">List Animals</a></li>          
+            </ul>
+        </div><!-- /navbar -->
+
+        <h2>Searching Animals</h2>
+    </div>
+
+    <!-- content -->
+    <div data-role="content" data-theme='e'>
+        <h2>What do you want to search?</h2>
+        <input type="text" id="mySearch" placeholder="Search for names.." title="Type in a name">
+
+        <table class="myList">
+            <thead>
+                <tr>
+                    <th width="150">Animal Type</th>
+                    <th width="150">Age</th>
+                    <th width="100">Breed</th>
+                    <th width="100">Gender</th>
+                    <th width="100">Adoption Fee</th>
+                    <th width="100">Current Location URL</th>
+                </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+        <img src="https://akm-img-a-in.tosshub.com/businesstoday/images/story/201909/bt_8r_1_660x450_090419060516.jpg?size=948:533" alt=" search Animals" style="width:100%">
+    </div>   
+
+        <!-- Animals footer -->
+    <div data-role="footer" data-theme='b'>
+        <h3>Copyrigtht 2022 by Soon Ryu</h3>
+    </div>
+</div>
+  <!-- End of  page ------------------------------------------------------------------>
+
+  
+<p id="IDparmHere" hidden>change1</p>  <!--hidden, a place to stash the user ID -->
+
+</body>
+
+</html>
