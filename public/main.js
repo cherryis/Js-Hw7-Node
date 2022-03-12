@@ -1,15 +1,15 @@
 //-------------------------- Start Add animal ---------------------------------------
 let animalArray = [];
-let selectType = "";
-let selectGender = "";
+let pSelectType = "";
+let pSelectGender = "";
 
 // define a constructor to create animal objects with 3 parameters
 let AnimalObject = function (pType, pAge, pBreed, pGender, pFee, pUrl) {
     this.ID = Math.random().toString(16).slice(5); // tiny chance could get duplicates!
-    this.selectType = pType;
+    this.pSelectType = pType;
     this.age = pAge;
     this.breed = pBreed;
-    this.selectGender = pGender;
+    this.pSelectGender = pGender;
     this.fee = pFee;
     this.url = pUrl;
 }
@@ -25,21 +25,26 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     document.getElementById("buttonAdd").addEventListener("click", function () {
 
-        let newAnimal = animalArray.push(new AnimalObject(selectType, document.getElementById("age").value, 
-         document.getElementById("breed").value, selectGender, document.getElementById("fee").value,
-         document.getElementById("url").value));
-         
+        pSelectType = document.getElementById("selectType").value;
+        pSelectGender = document.getElementById("selectGender").value;
+
+        let newAnimal = new AnimalObject(pSelectType, document.getElementById("age").value, 
+        document.getElementById("breed").value, pSelectGender, document.getElementById("fee").value,
+        document.getElementById("url").value)
+              
         $.ajax({
             url:"/AddAnimal",
             type:"POST",
             data: JSON.stringify(newAnimal),
             contentType: "application/json; charset=utf-8",
             success: function (result){
-                console.log(result);
+                console.log("Added Res:", result);
             }
         }) 
+
+
         document.location.href = "index.html#list"; //Moving to the list animal page automatically after added animal 
-        console.log(animalArray);
+       // console.log(animalArray);
 
         document.getElementById("age").value = ""; //Clear current input screen
         document.getElementById("breed").value = "";
@@ -48,11 +53,32 @@ document.addEventListener("DOMContentLoaded", function (event) {
     });
     // ------------------ End Add animal --------------------------------------------
 
+    //------------------------- Delete Animal --------------------
+    document.getElementById("delete").addEventListener("click", function () {
+        let localID = localStorage.getItem('parm'); //read back the value stored when we created the list
+        deleteAnimal(localID);
+        createList(); // recreate tr list after removing one
+        document.location.href = "index.html#ListAll"; // go back to animal table
+    });
+
     // button on detail information page to view the linked URL address
     document.getElementById("locationInformation").addEventListener("click", function () {
         window.open(document.getElementById("detailUrl").innerHTML);
     })
 
+    function deleteAnimal(ID) {
+        console.log(ID);
+        $.ajax({
+            type: "DELETE",
+            url: "/DeleteAnimal/" + ID,
+            success: function(result){
+                alert(result);
+            },
+            error: function (xhr, textStaus, errorThrown) {
+                alert("Server could not delete Animal with ID " + ID)
+            }
+        });
+    }
 
 
     // page before show code *************************************************************************
@@ -61,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     });  
 
 });
-
+//-------Pointing hovering list
 function GetArrayPointer(localID) {
     for (let i = 0; i < animalArray.length; i++) {
         if (localID === animalArray[i].ID) {
@@ -69,20 +95,19 @@ function GetArrayPointer(localID) {
         }
     }
 }
-
+//---------------------- Detail page
 // need one for detail page to fill in the infor based on the passed in ID
 $(document).on("pagebeforeshow", "#detail", function (event) {
-    // let localParm = localStorage.getItem('parm'); // get the unique key back from the dictionairy
-    let localParm = document.getElementById("IDparmHere").innerHTML;
-    let localID = GetArrayPointer(localParm); // map to which array element it is
-
     // next step to avoid bug in jQuery Mobile, force the movie array to be current
     animalArray = JSON.parse(localStorage.getItem('animalArray'));
-
-    document.getElementById("detailType").innerHTML = "The animal is => " + animalArray[localID].selectType;
+    let localParm = localStorage.getItem('parm'); // get the unique key back from the dictionairy
+    
+    let localID = GetArrayPointer(localParm); // map to which array element it is
+    
+    document.getElementById("detailType").innerHTML = "The animal is => " + animalArray[localID].pSelectType;
     document.getElementById("detailAge").innerHTML = "The age is => " + animalArray[localID].age;
     document.getElementById("detailBreed").innerHTML = "The breed is => " + animalArray[localID].breed;
-    document.getElementById("detailGender").innerHTML = "The gender is => " + animalArray[localID].selectGender;
+    document.getElementById("detailGender").innerHTML = "The gender is => " + animalArray[localID].pSelectGender;
     document.getElementById("detailFee").innerHTML = "Adoption fee is => $" + animalArray[localID].fee;
     document.getElementById("detailUrl").innerHTML = animalArray[localID].url;
 });
@@ -90,11 +115,12 @@ $(document).on("pagebeforeshow", "#detail", function (event) {
 // end of page before show code *************************************************************************
 
 
-
+//---------- Table List
 function createList() {
     
     $.get('/getAllAnimals', function(data, status) { // AJAX get
         animalArray = data; // put the returned server json data into our local array
+        console.log("getallAnimals = ", animalArray);
 
     // clear prior data
     let mytbody = $("tbody");
@@ -103,8 +129,8 @@ function createList() {
     // Adding a row inside the tbody
     animalArray.forEach(function (element,) {
         let tr = document.createElement("tr");
-        tr.innerHTML = "<td width='150'>" + element.selectType + "</td><td width='150'>" + element.age + 
-            "</td><td width='100'>" + element.breed + "</td><td width='100'>" + element.selectGender + 
+        tr.innerHTML = "<td width='150'>" + element.pSelectType + "</td><td width='150'>" + element.age + 
+            "</td><td width='100'>" + element.breed + "</td><td width='100'>" + element.pSelectGender + 
             "</td><td width='100'>" + element.fee + "</td><td width='100'>" + element.url + "</td>";
                 // // adding a class name to each one as a way of creating a collection
                 tr.classList.add('oneAnimal'); 
@@ -133,3 +159,14 @@ function createList() {
 
 });
 };
+
+//---------------------Search by any characters
+$(document).ready(function(){
+    $("#mySearch").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+      $("#tbody tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+
